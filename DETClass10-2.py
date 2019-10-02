@@ -130,13 +130,13 @@ def listen_print_loop(responses):
         overwrite_chars = ' ' * (num_chars_printed - len(transcript))
 
         if not result.is_final:
-            sys.stdout.write(transcript + overwrite_chars + '\r')
-            sys.stdout.flush()
+            #sys.stdout.write(transcript + overwrite_chars + '\r')
+            #sys.stdout.flush()
 
             num_chars_printed = len(transcript)
 
         else:
-#            print(transcript + overwrite_chars)
+            print(transcript + overwrite_chars)
             #if there's a voice activitated quit - quit!
             if re.search(r'\b(exit|quit)\b', transcript, re.I):
                 print('Exiting..')
