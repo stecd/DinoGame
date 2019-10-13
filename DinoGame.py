@@ -209,23 +209,24 @@ def LedStartRunning():
 def Jump():
     if LED_POS is 4:
         Die()
+    else:
+        PlayAudio("sfx_movement_jump11.wav")
+        crickit.servo_1.angle = 180
+        time.sleep(0.8)
 
-    PlayAudio("sfx_movement_jump11.wav")
-    crickit.servo_1.angle = 180
-    time.sleep(0.8)
+        crickit.servo_1.angle = 50
+        time.sleep(0.8)
 
-    crickit.servo_1.angle = 50
-    time.sleep(0.8)
-
-    if LED_POS is 4:
-        Die()
+        if LED_POS is 4:
+            Die()
 
 def Die():
     global IS_PLAYING, LED_THREAD
 
     PlayAudio("sfx_deathscream_robot2.wav")
     IS_PLAYING = False
-    LED_THREAD.join()
+    if LED_THREAD:
+        LED_THREAD.join()
     crickit.servo_1.angle = 100
     time.sleep(0.5)
     crickit.servo_1.angle = 80
@@ -249,8 +250,6 @@ def PlayAudio(audio):
     pygame.mixer.init()
     pygame.mixer.music.load(audio)
     pygame.mixer.music.play()
-    # while pygame.mixer.music.get_busy():
-    #     pygame.time.Clock().tick(10)
 
 def main():
         
