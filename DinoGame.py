@@ -201,7 +201,7 @@ def decide_action(transcript):
 def BackgroundLed():
     global LED_POS, IS_PLAYING
     print("started background thread")
-    count = 0
+    count = 9
 
     while IS_PLAYING:
         LED_POS = count % 9
@@ -209,15 +209,17 @@ def BackgroundLed():
         pixels.fill(OFF)
         pixels[LED_POS] = RED
         pixels.show()
-        count += 1
+        count -= 1
 
         print(LED_POS, SERVO_POS)
         if LED_POS is 4 and SERVO_POS is 50:
             print("DEAD")
             Die()
 
-        else:
-            time.sleep(2)
+        if LED_POS is 3 and SERVO_POS is 50:
+            time.sleep(1.5)
+
+        time.sleep(1.5)
 
     return
 
