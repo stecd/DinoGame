@@ -46,6 +46,7 @@ CURRENT_STATE = 0
 IS_MOVING = False
 IS_PLAYING = False
 LED_POS = 0
+LED_THREAD = None
 
 pygame.init()
 pygame.mixer.init()
@@ -178,22 +179,20 @@ def decide_action(transcript):
     #GCP to figure out what to do, how to respond. 
     if CURRENT_STATE is LAST:
         print("LAST")
+
     if re.search('play',transcript, re.I) or IS_MOVING:
         StartGame()
-        #Led()
-        #CURRENT_STATE += 1
-        #IS_MOVING = True
-        #time.sleep(2.0)
+
     elif re.search('jump',transcript, re.I):
         Jump()
 
 def BackgroundLed():
-    global LED_POS
+    global LED_POS, IS_PLAYING
     print("started background thread")
     count = 0
     while IS_PLAYING:
         LED_POS = count % 9
-        print(i)
+        print(LED_POS)
         pixels.fill(OFF)
         pixels[LED_POS] = RED
         pixels.show()
@@ -201,28 +200,57 @@ def BackgroundLed():
         time.sleep(1)
         
 def LedStartRunning():
-    global IS_PLAYING
+    global IS_PLAYING, LED_THREAD
     #ss = crickit.seesaw
     IS_PLAYING = True;
-    led_thread = threading.Thread(target=BackgroundLed)
-    led_thread.start()
+    LED_THREAD = threading.Thread(target=BackgroundLed)
+    LED_THREAD.start()
 
 def Jump():
-    #states = {0: 180, 1: 160, 2: 140, 3: 120, 4: 100, 5: 80, 6: 60, 7: 40, 8: 20}
-    if (LED_POS is 4) {
+    if LED_POS is 4:
         Die()
-    }
+
+    PlayAudio("sfx_movement_jump11.wav")
     crickit.servo_1.angle = 180
     time.sleep(0.8)
+
     crickit.servo_1.angle = 50
     time.sleep(0.8)
-    
+
+    if LED_POS is 4:
+        Die()
+
 def Die():
-    
-    
+    global IS_PLAYING, LED_THREAD
+
+    PlayAudio("sfx_deathscream_robot2.wav")
+    IS_PLAYING = False
+    LED_THREAD.join()
+    crickit.servo_1.angle = 100
+    time.sleep(0.5)
+    crickit.servo_1.angle = 80
+    time.sleep(0.5)
+    crickit.servo_1.angle = 90
+    time.sleep(0.5)
+    crickit.servo_1.angle = 60
+    time.sleep(0.5)
+    crickit.servo_1.angle = 70
+    time.sleep(0.5)
+    crickit.servo_1.angle = 50
+    time.sleep(0.5)
+
 def StartGame():
     print("Game starting")
+    PlayAudio("sfx_menu_select1.wav")
     LedStartRunning()
+
+
+def PlayAudio(audio):
+    pygame.mixer.init()
+    pygame.mixer.music.load(audio)
+    pygame.mixer.music.play()
+    # while pygame.mixer.music.get_busy():
+    #     pygame.time.Clock().tick(10)
 
 def main():
         
