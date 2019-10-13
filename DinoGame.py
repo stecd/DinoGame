@@ -211,14 +211,13 @@ def BackgroundLed():
         pixels.show()
         count += 1
 
+        print(LED_POS, SERVO_POS)
         if LED_POS is 4 and SERVO_POS is 50:
+            print("DEAD")
             Die()
 
-        if LED_POS is 3:
-            time.sleep(1.5)
-
         else:
-            time.sleep(1)
+            time.sleep(2)
 
     return
 
@@ -226,12 +225,13 @@ def BackgroundLed():
 def LedStartRunning():
     global IS_PLAYING, LED_THREAD
     #ss = crickit.seesaw
-    IS_PLAYING = True;
+    IS_PLAYING = True
     LED_THREAD = threading.Thread(target=BackgroundLed)
     LED_THREAD.start()
 
 
 def Jump():
+    global SERVO_POS, IS_PLAYING, LED_POS
 
     if IS_PLAYING and LED_POS is not 4:
         PlayAudio("sfx_movement_jump11.wav")
@@ -281,7 +281,6 @@ def Die():
     time.sleep(0.5)
     crickit.servo_1.angle = 50
     SERVO_POS = 50
-    time.sleep(0.5)
     LED_POS = 0
 
 
