@@ -46,6 +46,7 @@ CURRENT_STATE = 0
 IS_MOVING = False
 IS_PLAYING = False
 LED_POS = 0
+SERVO_POS = 50
 LED_THREAD = None
 
 pygame.init()
@@ -197,6 +198,10 @@ def BackgroundLed():
         pixels[LED_POS] = RED
         pixels.show()
         count += 1
+
+        if LED_POS is 4 and SERVO_POS < 100:
+            Die()
+
         time.sleep(1)
 
 
@@ -209,20 +214,17 @@ def LedStartRunning():
 
 
 def Jump():
+
+    PlayAudio("sfx_movement_jump11.wav")
+    crickit.servo_1.angle = 180
+    time.sleep(0.8)
+
     if LED_POS is 4:
-        Die()
-    else:
-        PlayAudio("sfx_movement_jump11.wav")
-        crickit.servo_1.angle = 180
-        time.sleep(0.8)
+        PlayAudio("sfx_coin_double1.wav")
 
-        crickit.servo_1.angle = 50
-        time.sleep(0.8)
+    crickit.servo_1.angle = 50
+    time.sleep(0.8)
 
-        if LED_POS is 4:
-            Die()
-        else:
-            PlayAudio("sfx_coin_double1.wav")
 
 
 def DeathLights():
@@ -272,7 +274,11 @@ def PlayAudio(audio):
     pygame.mixer.music.load(audio)
     pygame.mixer.music.play()
 
-def main():
+def Reset():
+    crickit.servo_1.angle = 50
+    pixels.fill(OFF)
+
+def Main():
         
     moving = False
 
@@ -311,4 +317,5 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    Reset()
+    Main()
