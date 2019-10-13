@@ -198,13 +198,15 @@ def BackgroundLed():
         pixels.show()
         count += 1
         time.sleep(1)
-        
+
+
 def LedStartRunning():
     global IS_PLAYING, LED_THREAD
     #ss = crickit.seesaw
     IS_PLAYING = True;
     LED_THREAD = threading.Thread(target=BackgroundLed)
     LED_THREAD.start()
+
 
 def Jump():
     if LED_POS is 4:
@@ -219,26 +221,45 @@ def Jump():
 
         if LED_POS is 4:
             Die()
+        else:
+            PlayAudio("sfx_coin_double1.wav")
+
+
+def DeathLights():
+
+    for _ in range(2):
+        pixels.fill(OFF)
+        pixels[4] = RED
+        pixels.show()
+        time.sleep(0.1)
+        pixels[3] = RED
+        pixels[5] = RED
+        pixels.show()
+        time.sleep(0.1)
+        pixels[2] = RED
+        pixels[6] = RED
+        pixels.show()
+        time.sleep(0.1)
+        pixels[1] = RED
+        pixels[7] = RED
+        pixels.show()
+        time.sleep(0.1)
+
 
 def Die():
     global IS_PLAYING, LED_THREAD
 
+    PlayAudio("sfx_exp_medium1.wav")
     PlayAudio("sfx_deathscream_robot2.wav")
     IS_PLAYING = False
+    pixels.fill(OFF)
     if LED_THREAD:
         LED_THREAD.join()
     crickit.servo_1.angle = 100
     time.sleep(0.5)
-    crickit.servo_1.angle = 80
-    time.sleep(0.5)
-    crickit.servo_1.angle = 90
-    time.sleep(0.5)
-    crickit.servo_1.angle = 60
-    time.sleep(0.5)
-    crickit.servo_1.angle = 70
-    time.sleep(0.5)
     crickit.servo_1.angle = 50
     time.sleep(0.5)
+
 
 def StartGame():
     print("Game starting")
