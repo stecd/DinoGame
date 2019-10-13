@@ -181,15 +181,22 @@ def decide_action(transcript):
     if CURRENT_STATE is LAST:
         print("LAST")
 
-    if re.search('play',transcript, re.I) or IS_MOVING:
+    if re.search('play', transcript, re.I) or IS_MOVING:
         StartGame()
 
-    elif re.search('jump',transcript, re.I):
+    elif re.search('jump', transcript, re.I):
         Jump()
     elif re.search('dumb', transcript, re.I):
         Jump()
     elif re.search('job', transcript, re.I):
         Jump()
+    elif re.search('cham', transcript, re.I):
+        Jump()
+    elif re.search('bump', transcript, re.I):
+        Jump()
+    elif re.search('up', transcript, re.I):
+        Jump()
+
 
 def BackgroundLed():
     global LED_POS, IS_PLAYING
@@ -204,7 +211,7 @@ def BackgroundLed():
         pixels.show()
         count += 1
 
-        if LED_POS is 4 and SERVO_POS < 100:
+        if LED_POS is 4 and SERVO_POS is 50:
             Die()
 
         time.sleep(1)
@@ -222,10 +229,10 @@ def LedStartRunning():
 
 def Jump():
 
-    if IS_PLAYING:
+    if IS_PLAYING and LED_POS is not 4:
         PlayAudio("sfx_movement_jump11.wav")
-        crickit.servo_1.angle = 180
         SERVO_POS = 180
+        crickit.servo_1.angle = 180
         time.sleep(0.8)
 
         if LED_POS is 4:
