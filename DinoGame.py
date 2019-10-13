@@ -186,6 +186,10 @@ def decide_action(transcript):
 
     elif re.search('jump',transcript, re.I):
         Jump()
+    elif re.search('dumb', transcript, re.I):
+        Jump()
+    elif re.search('job', transcript, re.I):
+        Jump()
 
 def BackgroundLed():
     global LED_POS, IS_PLAYING
@@ -218,15 +222,18 @@ def LedStartRunning():
 
 def Jump():
 
-    PlayAudio("sfx_movement_jump11.wav")
-    crickit.servo_1.angle = 180
-    time.sleep(0.8)
+    if IS_PLAYING:
+        PlayAudio("sfx_movement_jump11.wav")
+        crickit.servo_1.angle = 180
+        SERVO_POS = 180
+        time.sleep(0.8)
 
-    if LED_POS is 4:
-        PlayAudio("sfx_coin_double1.wav")
+        if LED_POS is 4:
+            PlayAudio("sfx_coin_double1.wav")
 
-    crickit.servo_1.angle = 50
-    time.sleep(0.8)
+        crickit.servo_1.angle = 50
+        SERVO_POS = 50
+        time.sleep(0.8)
 
 
 
@@ -252,16 +259,19 @@ def DeathLights():
 
 
 def Die():
-    global IS_PLAYING, LED_THREAD
+    global IS_PLAYING, LED_THREAD, LED_POS
 
     PlayAudio("sfx_exp_medium1.wav")
     PlayAudio("sfx_deathscream_robot2.wav")
     IS_PLAYING = False
     pixels.fill(OFF)
     crickit.servo_1.angle = 100
+    SERVO_POS = 100
     time.sleep(0.5)
     crickit.servo_1.angle = 50
+    SERVO_POS = 50
     time.sleep(0.5)
+    LED_POS = 0
 
 
 def StartGame():
@@ -277,6 +287,7 @@ def PlayAudio(audio):
 
 def Reset():
     crickit.servo_1.angle = 50
+    SERVO_POS = 50
     pixels.fill(OFF)
 
 def Main():
