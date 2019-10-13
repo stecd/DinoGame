@@ -191,6 +191,7 @@ def BackgroundLed():
     global LED_POS, IS_PLAYING
     print("started background thread")
     count = 0
+
     while IS_PLAYING:
         LED_POS = count % 9
         print(LED_POS)
@@ -203,6 +204,8 @@ def BackgroundLed():
             Die()
 
         time.sleep(1)
+
+    return
 
 
 def LedStartRunning():
@@ -255,8 +258,6 @@ def Die():
     PlayAudio("sfx_deathscream_robot2.wav")
     IS_PLAYING = False
     pixels.fill(OFF)
-    if LED_THREAD:
-        LED_THREAD.join()
     crickit.servo_1.angle = 100
     time.sleep(0.5)
     crickit.servo_1.angle = 50
