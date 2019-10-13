@@ -214,7 +214,11 @@ def BackgroundLed():
         if LED_POS is 4 and SERVO_POS is 50:
             Die()
 
-        time.sleep(1)
+        if LED_POS is 3:
+            time.sleep(1.5)
+
+        else:
+            time.sleep(1)
 
     return
 
@@ -239,8 +243,8 @@ def Jump():
             PlayAudio("sfx_coin_double1.wav")
 
         crickit.servo_1.angle = 50
-        SERVO_POS = 50
         time.sleep(0.8)
+        SERVO_POS = 50
 
 
 
