@@ -205,6 +205,7 @@ def BackgroundLed():
     global LED_POS, IS_PLAYING
     print("started background thread")
     count = 8
+    speed = 1
 
     while IS_PLAYING:
         LED_POS = count % 9
@@ -223,7 +224,10 @@ def BackgroundLed():
             pixels[LED_POS] = GREEN
             pixels.show()
 
-        time.sleep(1)
+        if count is 0:
+            speed -= 0.1
+
+        time.sleep(speed)
 
     return
 
