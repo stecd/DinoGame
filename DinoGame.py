@@ -219,6 +219,9 @@ def BackgroundLed():
         if LED_POS is 4 and SERVO_POS is 50:
             print("DEAD")
             Die()
+        elif LED_POS is 4:
+            pixels[LED_POS] = GREEN
+            pixels.show()
 
         time.sleep(1)
 
@@ -278,21 +281,17 @@ def StartLights():
     for _ in range(1):
         pixels[0] = RED
         pixels[8] = RED
-        pixels.show()
         time.sleep(0.2)
         pixels[1] = ORANGE
         pixels[7] = ORANGE
-        pixels.show()
         time.sleep(0.2)
         pixels[2] = YELLOW
         pixels[6] = YELLOW
-        pixels.show()
         time.sleep(0.2)
         pixels[3] = BLUE
         pixels[5] = BLUE
-        pixels.fill(OFF)
+        time.sleep(0.2)
         pixels[4] = PURPLE
-        pixels.show()
         time.sleep(0.2)
         pixels.fill(OFF)
 
