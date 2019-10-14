@@ -35,6 +35,7 @@ client = speech.SpeechClient()
 
 RED = (255, 0, 0)
 YELLOW = (255, 150, 0)
+ORANGE = (255, 165, 0)
 GREEN = (0, 255, 0)
 CYAN = (0, 255, 255)
 BLUE = (0, 0, 255)
@@ -209,6 +210,7 @@ def BackgroundLed():
         pixels.fill(OFF)
         pixels[LED_POS] = RED
         pixels.show()
+        PlayAudio("sfx_sounds_Blip4.wav")
         count -= 1
 
         print(LED_POS, SERVO_POS)
@@ -216,10 +218,7 @@ def BackgroundLed():
             print("DEAD")
             Die()
 
-        if LED_POS is 3 and SERVO_POS is 50:
-            time.sleep(1.5)
-
-        time.sleep(1.5)
+        time.sleep(1)
 
     return
 
@@ -259,6 +258,7 @@ def DeathLights():
         time.sleep(0.1)
         pixels[3] = RED
         pixels[5] = RED
+        pixels.fill(OFF)
         pixels.show()
         time.sleep(0.1)
         pixels[2] = RED
@@ -269,6 +269,30 @@ def DeathLights():
         pixels[7] = RED
         pixels.show()
         time.sleep(0.1)
+
+
+def StartLights():
+
+    for _ in range(2):
+        pixels[0] = RED
+        pixels[8] = RED
+        pixels.show()
+        time.sleep(0.1)
+        pixels[1] = ORANGE
+        pixels[7] = ORANGE
+        pixels.show()
+        time.sleep(0.1)
+        pixels[2] = YELLOW
+        pixels[6] = YELLOW
+        pixels.show()
+        time.sleep(0.1)
+        pixels[3] = BLUE
+        pixels[5] = BLUE
+        pixels.fill(OFF)
+        pixels[4] = PURPLE
+        pixels.show()
+        time.sleep(0.1)
+        pixels.fill(OFF)
 
 
 def Die():
@@ -290,6 +314,7 @@ def Die():
 def StartGame():
     print("Game starting")
     PlayAudio("sfx_menu_select1.wav")
+    StartLights()
     LedStartRunning()
 
 
