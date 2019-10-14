@@ -201,7 +201,7 @@ def decide_action(transcript):
 def BackgroundLed():
     global LED_POS, IS_PLAYING
     print("started background thread")
-    count = 9
+    count = 8
 
     while IS_PLAYING:
         LED_POS = count % 9
@@ -277,6 +277,7 @@ def Die():
     PlayAudio("sfx_exp_medium1.wav")
     PlayAudio("sfx_deathscream_robot2.wav")
     IS_PLAYING = False
+    DeathLights()
     pixels.fill(OFF)
     crickit.servo_1.angle = 100
     SERVO_POS = 100
