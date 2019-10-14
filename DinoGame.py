@@ -197,6 +197,8 @@ def decide_action(transcript):
         Jump()
     elif re.search('up', transcript, re.I):
         Jump()
+    else:
+        Jump()
 
 
 def BackgroundLed():
@@ -273,25 +275,25 @@ def DeathLights():
 
 def StartLights():
 
-    for _ in range(2):
+    for _ in range(1):
         pixels[0] = RED
         pixels[8] = RED
         pixels.show()
-        time.sleep(0.1)
+        time.sleep(0.2)
         pixels[1] = ORANGE
         pixels[7] = ORANGE
         pixels.show()
-        time.sleep(0.1)
+        time.sleep(0.2)
         pixels[2] = YELLOW
         pixels[6] = YELLOW
         pixels.show()
-        time.sleep(0.1)
+        time.sleep(0.2)
         pixels[3] = BLUE
         pixels[5] = BLUE
         pixels.fill(OFF)
         pixels[4] = PURPLE
         pixels.show()
-        time.sleep(0.1)
+        time.sleep(0.2)
         pixels.fill(OFF)
 
 
@@ -312,10 +314,11 @@ def Die():
 
 
 def StartGame():
-    print("Game starting")
-    PlayAudio("sfx_menu_select1.wav")
-    StartLights()
-    LedStartRunning()
+    if not IS_PLAYING:
+        print("Game starting")
+        PlayAudio("sfx_menu_select1.wav")
+        StartLights()
+        LedStartRunning()
 
 
 def PlayAudio(audio):
