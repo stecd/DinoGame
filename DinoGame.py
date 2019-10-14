@@ -216,7 +216,6 @@ def BackgroundLed():
         PlayAudio("sfx_sounds_Blip4.wav")
         count -= 1
 
-        print(LED_POS, SERVO_POS)
         if LED_POS is 4 and SERVO_POS is 50:
             print("DEAD")
             Die()
@@ -225,7 +224,8 @@ def BackgroundLed():
             pixels.show()
 
         if count is 0:
-            speed -= 0.1
+            if speed is not 0.1:
+                speed  -= 0.1
 
         time.sleep(speed)
 
